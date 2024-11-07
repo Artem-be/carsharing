@@ -1,0 +1,57 @@
+
+{% load static %}
+<html>
+<head>
+    <title>Мой блог</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
+</head>
+<body>
+    <div class="shell">
+        <div class="border">
+                <div id="navigation">
+                    <ul>
+                        <li><a href="/" class="active">Главная</a></li>
+                        {% if user.is_authenticated %}
+                            <li> Добро пожаловать, {{ user.username }}! </li>
+                            <li><a href="{% url 'logout' %}">Выход</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Вход</a></li>
+                            <li><a href="{% url 'register' %}">Регистрация</a></li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'add_car' %}">Добавить автомобиль</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+            <div id="main">
+                <div id="content" class="left">
+                    <div class="projects">
+                        <h3>Записи</h3>
+                        {% for car in Cars %}
+                            <div class="item">
+                                <div class="text left">
+                                    <h3><a href="{% url 'post_car' car.id %}">{{ car.make }}</a></h3>
+                                    <h4>{{ car.model }}</h4>
+                                    <p>{{ car.year }}</p>
+                                    <p>{{ car.description }}</p>
+                                    {% if car.owner == request.user %}
+                                        <form method="post" action="{% url 'delete_car' car.id %}">
+                                            {% csrf_token %}
+                                            <a href="{% url 'edit_car' car.id %}">Редактировать</a>
+                                            <button type="submit">Удалить</button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                                <div class="cl">&nbsp;</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="cl">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
