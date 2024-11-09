@@ -14,13 +14,10 @@
                         <li><a href="/" class="active">Главная</a></li>
                         {% if user.is_authenticated %}
                             <li> Добро пожаловать, {{ user.username }}! </li>
-                            <li><a href="#">Выход</a></li>
+                            <li><a href="{% url 'logout' %}">Выход</a></li>
                         {% else %}
-                            <li><a href="#">Вход</a></li>
-                            <li><a href="#">Регистрация</a></li>
-                        {% endif %}
-                        {% if user.is_authenticated %}
-                        <li><a href="#">Заказать автомобиль</a></li>
+                            <li><a href="{% url 'login' %}">Вход</a></li>
+                            <li><a href="{% url 'register' %}">Регистрация</a></li>
                         {% endif %}
                     </ul>
                 </div>
@@ -32,7 +29,7 @@
                         {% for car in Cars %}
                             <div class="item">
                                 <div class="text left">
-                                    <h3><a href="#">{{ car.make }}</a></h3>
+                                    <h3><a href="{% url 'reserve_car' car.carid %}">{{ car.make }}</a></h3>
                                     <h4>{{ car.model }}</h4>
                                     <p>{{ car.year }}</p>
                                     <p>{{ car.description }}</p>
