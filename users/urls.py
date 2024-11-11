@@ -13,5 +13,5 @@ urlpatterns = [
 ]
 
 # Добавление URL для статических файлов в режиме отладки
-if settings.DEBUG == True:
+if settings.DEBUG == False:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

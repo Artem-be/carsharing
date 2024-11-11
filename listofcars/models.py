@@ -7,6 +7,7 @@ class Cars(models.Model):
     year = models.IntegerField('Год выпуска')
     description = models.TextField('описание автомобиля')
     is_reserved = models.BooleanField(default=False)
+    cost_per_hour = models.IntegerField('Стоимость за час')
     created_at = models.DateTimeField('дата и время создания записи', auto_now_add=True)
     updated_at = models.DateTimeField('дата и время последнего обновления записи', auto_now=True)
 
@@ -19,11 +20,12 @@ class Cars(models.Model):
 
 
 class Contracts(models.Model):
+
     counthours = models.IntegerField('Кол часов')
     car = models.ForeignKey('Cars', verbose_name='Машина', on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
     created = models.DateTimeField(auto_now_add=True)
-
+    contract_id = models.AutoField(primary_key=True)
     def __str__(self):
         return f'Контракт для {self.car} от {self.author}'
 
