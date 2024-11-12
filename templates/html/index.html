@@ -18,6 +18,11 @@
                         <li><a href="{% url 'login' %}">Вход</a></li>
                         <li><a href="{% url 'register' %}">Регистрация</a></li>
                     {% endif %}
+                    {% if user.is_authenticated %}
+                        {% if user.username == 'admin'  %}
+                            <li><a href="{% url 'add_car' %}">Добавить автомобиль</a></li>
+                        {% endif %}
+                    {% endif %}
                 </ul>
             </div>
             <div id="main">
@@ -31,6 +36,13 @@
                                     <h4>{{ car.model }}</h4>
                                     <p>{{ car.year }}</p>
                                     <p>{{ car.description }}</p>
+                                    {% if car.owner == request.user %}
+                                        <form method="post" action="{% url 'delete_car' car.carid %}">
+                                            {% csrf_token %}
+                                            <a href="{% url 'edit_car' car.carid %}">Редактировать</a>
+                                            <button type="submit">Удалить</button>
+                                        </form>
+                                    {% endif %}
                                 </div>
                                 <div class="cl">&nbsp;</div>
                             </div>

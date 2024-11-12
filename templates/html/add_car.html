@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Добавить автомобиль</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" />
+</head>
+<body>
+    <div class="shell">
+        <div class="border">
+            <h2>Добавить автомобиль</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Сохранить</button>
+            </form>
+            <a href="{% url 'home' %}">Отмена</a>
+        </div>
+    </div>
+</body>
+</html>

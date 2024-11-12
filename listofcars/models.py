@@ -1,7 +1,8 @@
 from django.db import models
 from django.conf import settings
 class Cars(models.Model):
-    carid = models.IntegerField('ID',unique=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Автор')
+    carid = models.AutoField(primary_key=True)
     make = models.CharField('Марка', max_length=255)
     model = models.CharField('Модель', max_length=255)
     year = models.IntegerField('Год выпуска')

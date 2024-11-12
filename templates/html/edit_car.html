@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+<head>
+    <title>Редактирование автомобиля</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" />
+</head>
+<body>
+    <div class="shell">
+        <div class="border">
+            <div id="header">
+                <div id="navigation">
+                    <ul>
+                        <li><a href="/" class="active">Главная</a></li>
+                        {% if user.is_authenticated %}
+                            <li>Добро пожаловать, {{ user.username }}!</li>
+                            <li><a href="{% url 'logout' %}">Выход</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Вход</a></li>
+                            <li><a href="{% url 'register' %}">Регистрация</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'add_car' %}">Добавить автомобиль</a></li>
+                        <li><a href="/admin">Админ панель</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="main">
+                <div id="content" class="left">
+                    <h3>Редактировать автомобиль: {{ car.make }} {{ car.model }}</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">Сохранить изменения</button>
+                    </form>
+                </div>
+            </div>
+            <div class="cl">&nbsp;</div>
+        </div>
+    </div>
+</body>
+</html>

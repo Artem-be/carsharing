@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Cars, Contracts
-from .form import ContractsForm
+from .form import ContractsForm, CarForm
 from django.contrib.auth import logout
 
 
@@ -63,3 +63,37 @@ class ReserveCarView(LoginRequiredMixin, View):  # Используем LoginReq
             'form': counthours
         }
         return render(request, 'html/reserve_car.html', context)
+
+class AddCar(View):
+    def get(self, request):
+        form = CarForm()
+        return render(request, 'html/add_car.html', {'form': form})
+
+    def post(self, request):
+        form = CarForm(request.POST)
+        if form.is_valid():
+            car = form.save(commit=False)
+            car.owner = request.user
+            car.save()
+            return redirect('home')
+        return render(request, 'html/add_car.html', {'form': form})
+
+class DeleteCar(View):
+    def post(self, request, car_id):
+        car = get_object_or_404(Cars, carid=car_id)
+        car.delete()
+        return redirect('home')
+
+class EditCar(View):
+    def get(self, request, car_id):
+        car = get_object_or_404(Cars, carid=car_id)
+        form = CarForm(instance=car)
+        return render(request, 'html/edit_car.html', {'form': form})
+
+    def post(self, request, car_id):
+        car = get_object_or_404(Cars, carid=car_id)
+        form = CarForm(request.POST, instance=car)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        return render(request, 'html/edit_car.html', {'form': form})
