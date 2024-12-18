@@ -21,7 +21,6 @@ class Cars(models.Model):
 
 
 class Contracts(models.Model):
-
     counthours = models.IntegerField('Кол часов')
     car = models.ForeignKey('Cars', verbose_name='Машина', on_delete=models.CASCADE)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
@@ -33,6 +32,5 @@ class Contracts(models.Model):
     class Meta:
         verbose_name = 'Контракт'
         verbose_name_plural = 'Контракты'
-
 
 
